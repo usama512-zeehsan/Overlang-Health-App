@@ -7,7 +7,7 @@ from utils.env_variables import MAILTRAP_HOST, MAILTRAP_PORT, MAILTRAP_USERNAME,
 
 router = APIRouter()
 
-SENDER_EMAIL = "OverLang AI <heyitsali.jan313@gmail.com>"  # Must match MAILTRAP_USERNAME
+SENDER_EMAIL = "OverLang AI <enter your email>"  # Must match MAILTRAP_USERNAME
 
 @router.post("/capture-email")
 def capture_email(payload: EmailCapture):
