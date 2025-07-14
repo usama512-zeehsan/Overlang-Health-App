@@ -7,7 +7,7 @@ from utils.env_variables import MAILTRAP_HOST, MAILTRAP_PORT, MAILTRAP_USERNAME,
 
 router = APIRouter()
 
-SENDER_EMAIL = "OverLang AI <noreply@overlang.ai>"
+SENDER_EMAIL = "OverLang AI <heyitsali.jan313@gmail.com>"  # Must match MAILTRAP_USERNAME
 
 @router.post("/capture-email")
 def capture_email(payload: EmailCapture):
@@ -33,7 +33,7 @@ OverLang AI Team
 
     try:
         with smtplib.SMTP(MAILTRAP_HOST, MAILTRAP_PORT) as server:
-            server.starttls()  # STARTTLS for secure connection
+            server.starttls()  # Enable TLS
             server.login(MAILTRAP_USERNAME, MAILTRAP_PASSWORD)
             server.sendmail(SENDER_EMAIL, payload.email, message.as_string())
 
