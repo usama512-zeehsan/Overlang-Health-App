@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import SessionLocal
 from sqlalchemy import text  # ✅ ADD THIS IMPORT
-from models.session import UserSession
+from models.session import UserSession, SessionAppendRequest
 import uuid
 
 router = APIRouter()
@@ -23,13 +23,13 @@ def start_session(user_id: str, db: Session = Depends(get_db)):
     return {"session_id": session_id}
 
 @router.post("/session/append")
-def append_to_session(session_id: str, question: str, answer: str, db: Session = Depends(get_db)):
-    session = db.query(UserSession).filter(UserSession.session_id == session_id).first()
+def append_to_session(payload: SessionAppendRequest, db: Session = Depends(get_db)):
+    session = db.query(UserSession).filter(UserSession.session_id == payload.session_id).first()
     if session:
-        session.questions.append(question)
+        session.questions.append(payload.question)
         session.responses.append({
-            "question": question,
-            "answer": answer
+            "question": payload.question,
+            "answer": payload.answer
         })
         db.commit()
         return {"message": "Updated"}
